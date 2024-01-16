@@ -84,12 +84,6 @@ Serial.println(F("MAX30105 SPO_2 app Started."));
     while (1);
   }
 
-
-
-  // Serial.println(F("Attach sensor to finger with rubber band. Press any key to start conversion"));
-  // while (Serial.available() == 0) ; //wait until user presses a key
-  // Serial.read();
-
   byte ledBrightness = 60; //Options: 0=Off to 255=50mA
   byte sampleAverage = 4; //Options: 1, 2, 4, 8, 16, 32
   byte ledMode = 2; //Options: 1 = Red only, 2 = Red + IR, 3 = Red + IR + Green
@@ -111,11 +105,6 @@ Serial.println(F("MAX30105 SPO_2 app Started."));
     redBuffer[i] = particleSensor.getRed();
     irBuffer[i] = particleSensor.getIR();
     particleSensor.nextSample(); //We're finished with this sample so move to next sample
-
-    // Serial.print(F("red="));
-    // Serial.print(redBuffer[i], DEC);
-    // Serial.print(F(", ir="));
-    // Serial.println(irBuffer[i], DEC); 
   }
 
   //calculate heart rate and SpO2 after first 100 samples (first 4 seconds of samples)
@@ -126,9 +115,6 @@ Serial.println(F("MAX30105 SPO_2 app Started."));
 
 void ed_max30105_spo2_loop()
 {
- 
-  //Continuously taking samples from MAX30102.  Heart rate and SpO2 are calculated every 1 second
-  // while (1)
   {
     //dumping the first 25 sets of samples in the memory and shift the last 75 sets of samples to the top
     for (byte i = 25; i < 100; i++)
@@ -149,23 +135,6 @@ void ed_max30105_spo2_loop()
       irBuffer[i] = particleSensor.getIR();
       particleSensor.nextSample(); //We're finished with this sample so move to next sample
 
-      // //send samples and calculation result to terminal program through UART
-      // Serial.print(F("red="));
-      // Serial.print(redBuffer[i], DEC);
-      // Serial.print(F(", ir="));
-      // Serial.print(irBuffer[i], DEC);
-
-      // Serial.print(F(", HR="));
-      // Serial.print(heartRate, DEC);
-
-      // Serial.print(F(", HRvalid="));
-      // Serial.print(validHeartRate, DEC);
-
-      // Serial.print(F(", SPO2="));
-      // Serial.print(spo2, DEC);
-
-      // Serial.print(F(", SPO2Valid="));
-      // Serial.println(validSPO2, DEC);
     }
 
     //After gathering 25 new samples recalculate HR and SP02
@@ -214,8 +183,6 @@ void reconnect();
 
 void ed_max30105_spo2_mqtt_publish()
 {
-  // put your main code here, to run repeatedly:
-
   if (!mqttClient.connected())
     reconnect();
   mqttClient.loop();
@@ -231,5 +198,5 @@ void ed_max30105_spo2_mqtt_publish()
   // Publishing data throgh MQTT
   char mqtt_message[128];
   serializeJson(doc, mqtt_message);
-  mqttClient.publish("microlab/hearth/device/smart_watch/spo2", mqtt_message, true);
+  mqttClient.publish("hearth/device/smart_watch/spo2", mqtt_message, true);
 }

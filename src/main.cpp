@@ -43,14 +43,9 @@ int buttonStateOld = HIGH; // variable for reading the pushbutton status
 int app_state = 0;
 int app_state_old = 0;
 
-
-
-
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
 #define OLED_RESET -1
-
-
 
 Adafruit_SSD1306 display = Adafruit_SSD1306(128, 32, &Wire);
 
@@ -67,7 +62,7 @@ void display_setup()
     }
 
 // text display tests
-    display.clearDisplay();
+  display.clearDisplay();
   display.setTextSize(1);
   display.setTextColor(SSD1306_WHITE);
   display.setCursor(0,0);
@@ -94,8 +89,6 @@ void setup()
   buttonState = digitalRead(buttonPin);
   buttonStateOld = buttonState;
   display_setup();
-  // ed_max30105_setup();
-  // ed_max30105_spo2_setup();
 
 /// MQTT Setup
 
@@ -240,7 +233,7 @@ void reconnect() {
       if (mqttClient.connect(clientId.c_str(), mqtt_username, mqtt_password)) {
         Serial.println("Connected to MQTT broker.");
         // subscribe to topic
-        mqttClient.subscribe("microlab/hearth/device/smart_watch");
+        mqttClient.subscribe("hearth/device/smart_watch");
       }
   }
 }

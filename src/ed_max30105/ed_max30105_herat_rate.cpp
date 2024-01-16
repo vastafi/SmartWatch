@@ -147,15 +147,13 @@ void    reconnect();
 
 void ed_max30105_heart_rate_mqtt_publish()
 {
-  // put your main code here, to run repeatedly:
-
   if (!mqttClient.connected())
     reconnect();
   mqttClient.loop();
 
   // JSON mapping
   doc.clear();
-  doc["app_id"] = "heart_rate";
+  doc["app_id"] = "bmp";
   doc["bpm"] = beatsPerMinute;
   doc["avg_bpm"] = beatAvg;
   doc["no_finger_status"] = no_finger_status;
@@ -163,5 +161,5 @@ void ed_max30105_heart_rate_mqtt_publish()
   char buffer[512];
   size_t n = serializeJson(doc, buffer);
   Serial.println(buffer);
-  mqttClient.publish("microlab/hearth/device/smart_watch/heart_rate", buffer, n);
+  mqttClient.publish("hearth/device/smart_watch/bmp", buffer, n);
 }

@@ -119,5 +119,5 @@ void ed_max30105_temp_mqtt_publish()
   // Publishing data throgh MQTT
   char mqtt_message[128];
   serializeJson(doc, mqtt_message);
-  mqttClient.publish("microlab/hearth/device/smart_watch/temp", mqtt_message, true);
+  mqttClient.publish("hearth/device/smart_watch/temp", mqtt_message, true);
 }
